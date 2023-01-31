@@ -53,12 +53,14 @@ static int	check_is_int(char **av, t_data *dt)
 	dt->time_sleep = fn_atoi(av[4]);
 	if (dt->time_sleep < 0)
 		return (dt->time_sleep);
-	if (av[5])
-		dt->nb_meal = fn_atoi(av[5]);
+	if (!av[5])
+		dt->nb_meal = -1;
 	else
-		dt->nb_meal = 0;
-	if (dt->nb_meal < 0)
-		return (dt->nb_meal);
+	{
+		dt->nb_meal = fn_atoi(av[5]);
+		if (dt->nb_meal < 0)
+			return (dt->nb_meal);
+	}
 	return (0);
 }
 

@@ -48,15 +48,15 @@ void	fn_destroy(t_data *dt)
 	int	i;
 
 	i = -1;
-	if (dt->action)
+	if (dt->message)
 	{
-		pthread_mutex_destroy(dt->action);
-		free(dt->action);
+		pthread_mutex_destroy(dt->message);
+		free(dt->message);
 	}
-	if (dt->fork)
+	if (dt->time_t)
 	{
-		pthread_mutex_destroy(dt->fork);
-		free(dt->fork);
+		pthread_mutex_destroy(dt->time_t);
+		free(dt->time_t);
 	}
 	if (dt->philo)
 	{
