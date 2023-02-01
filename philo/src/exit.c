@@ -26,12 +26,7 @@ int	fn_error(int num)
 		write(2, "Error\nInvalid empty argument.\n", 30);
 	else if (num == phil_null)
 		write(2, "Error\nInvalid number of philosophers.\n", 38);
-	return (-1);
-}
-
-int	fn_close(int num, t_data *dt)
-{
-	if (num == err_malloc)
+	else if (num == err_malloc)
 		write(2, "Error\nMalloc() fail.\n", 21);
 	else if (num == err_mutex)
 		write(2, "Error\nMutex() fail.\n", 20);
@@ -39,7 +34,6 @@ int	fn_close(int num, t_data *dt)
 		write(2, "Error\nPthread_create() fail.\n", 29);
 	else if (num == err_phil2)
 		write(2, "Error\nPthread_join() fail.\n", 27);
-	fn_destroy(dt);
 	return (-1);
 }
 
@@ -53,10 +47,10 @@ void	fn_destroy(t_data *dt)
 		pthread_mutex_destroy(dt->message);
 		free(dt->message);
 	}
-	if (dt->time_t)
+	if (dt->get_time)
 	{
-		pthread_mutex_destroy(dt->time_t);
-		free(dt->time_t);
+		pthread_mutex_destroy(dt->get_time);
+		free(dt->get_time);
 	}
 	if (dt->philo)
 	{

@@ -51,30 +51,27 @@ typedef struct s_data{
 	int				time_sleep;
 	int				nb_meal;
 	int				dead;
-	int				start;
-	struct timeval	go;
+	long			start;
 	pthread_mutex_t	*message;
-	pthread_mutex_t	*time_t;
+	pthread_mutex_t	*get_time;
 	struct s_philo	*philo;
 }t_data;
 
 typedef struct s_philo{
 	int				id;
-	int				state;
-	t_data			*memo;
-	int				last_meal;
-	struct timeval	meal;
-	pthread_t		phil;
+	long			last_meal;
+	t_data			*link;
+	pthread_t		phi;
 	pthread_mutex_t	fork_r;
 	pthread_mutex_t	*fork_l;
 }t_philo;
 
 int		check_arg(int ac, char **av, t_data *dt);
 int		fn_error(int num);
-int		fn_close(int num, t_data *dt);
 void	fn_destroy(t_data *dt);
 void    fn_message(t_philo *philo, int num);
-void    check_time(t_philo *philo);
-void	start_simu(t_philo *philo);
+int		check_time(t_philo *philo);
+int		start_simu(t_philo *philo, int i, int j);
+int		get_time(t_data *dt);
 
 #endif
