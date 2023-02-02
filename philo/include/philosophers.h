@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philosophers.h                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sadorlin <sadorlin@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/02/02 11:14:30 by sadorlin          #+#    #+#             */
+/*   Updated: 2023/02/02 11:14:40 by sadorlin         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef PHILOSOPHERS_H
 # define PHILOSOPHERS_H
 
@@ -22,13 +34,20 @@ enum e_error{
 };
 
 enum e_syntaxe{
-	ALIVE=0,
-	DEAD,
-	FORK,
+	FORK=0,
 	EAT,
 	SLEEP,
 	THINK,
 };
+
+typedef struct s_philo{
+	int				id;
+	long			last_meal;
+	struct s_data	*link;
+	pthread_t		phi;
+	pthread_mutex_t	fork_r;
+	pthread_mutex_t	*fork_l;
+}t_philo;
 
 typedef struct s_data{
 	int				nb_philo;
@@ -38,26 +57,23 @@ typedef struct s_data{
 	int				nb_meal;
 	int				dead;
 	long			start;
+	t_philo			chrono;
 	pthread_mutex_t	*message;
 	pthread_mutex_t	*get_time;
 	struct s_philo	*philo;
 }t_data;
 
-typedef struct s_philo{
-	int				id;
-	long			last_meal;
-	t_data			*link;
-	pthread_t		phi;
-	pthread_mutex_t	fork_r;
-	pthread_mutex_t	*fork_l;
-}t_philo;
-
 int		check_arg(int ac, char **av, t_data *dt);
 int		fn_error(int num);
 void	fn_destroy(t_data *dt);
 void    fn_message(t_philo *philo, int num);
-int		check_time(t_philo *philo);
-int		start_simu(t_philo *philo, int i, int j);
 int		get_time(t_data *dt);
+int		take_fork_l(t_philo *philo);
+int		take_fork_r(t_philo *philo);
+int		start_eat(t_philo *philo);
+int		start_sleep(t_philo *philo);
+int		simu_with_meal(t_philo *philo, int i);
+int		simu_without_meal(t_philo *philo);
+//void	lonely(t_philo *philo);
 
 #endif
