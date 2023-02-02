@@ -3,12 +3,12 @@ INCLUDE = ./include
 SRC = src/check.c  src/exit.c src/simulation.c src/utils.c src/main.c
 OBJ = $(SRC:.c=.o)
 CC = cc
-CFLAGS = -Wall -Wextra -Werror 
+CFLAGS = -Wall -Wextra -Werror
 
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	$(CC) $(CFLAGS)  $(OBJ)  -lpthread -o $(NAME)
+	$(CC) $(CFLAGS) -lpthread -fsanitize=thread $(OBJ) -o $(NAME)
 
 %.o: %.c $(INCLUDE)
 	$(CC) $(CFLAGS) -I$(INCLUDE) -c $< -o $@

@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   philosophers.h                                     :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: sadorlin <sadorlin@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/22 12:34:05 by sadorlin          #+#    #+#             */
-/*   Updated: 2023/01/22 12:34:09 by sadorlin         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #ifndef PHILOSOPHERS_H
 # define PHILOSOPHERS_H
 
@@ -34,9 +22,7 @@ enum e_error{
 };
 
 enum e_syntaxe{
-	PAIR=0,
-	IMPAIR,
-	ALIVE,
+	ALIVE=0,
 	DEAD,
 	FORK,
 	EAT,

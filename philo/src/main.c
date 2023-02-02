@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: sadorlin <sadorlin@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/22 12:34:44 by sadorlin          #+#    #+#             */
-/*   Updated: 2023/01/22 12:35:15 by sadorlin         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "../include/philosophers.h"
 
 static int	init_data(t_data *dt, int i)
@@ -40,7 +28,6 @@ static int	init_data(t_data *dt, int i)
 static void	*routine(void *philo)
 {
 	t_philo	*p;
-	int		*ret;
 	int		i;
 
 	p = (t_philo *)philo;
@@ -48,15 +35,11 @@ static void	*routine(void *philo)
 		i = 2;
 	else
         i = 0;
-	ret = malloc(sizeof(int));
-	if (!ret)
-		return (NULL);
-	*ret = 9;
 	if (p->id % 2 == 0)
-		usleep(100);
+		usleep(3000);
 	p->last_meal = p->link->start;
 	start_simu(p, -1, i);
-	return ((void *)ret);
+	return (NULL);
 }
 
 static int	init_philo(t_data *dt)
@@ -70,16 +53,13 @@ static int	init_philo(t_data *dt)
 	{
 		if (pthread_create(&dt->philo[i].phi, NULL, routine, &dt->philo[i]) != 0)
 			return (fn_error(err_phil));
-		usleep(2000);
+		usleep(3000);
 	}
 	i = -1;
 	while (++i < dt->nb_philo)
 	{
 		if (pthread_join(dt->philo[i].phi, (void *)&ret) != 0)
 			return (fn_error(err_phil2));
-		if (*ret != 9)
-			return (fn_error(err_mutex));
-		free(ret);
 	}
 	return (0);
 }
@@ -94,7 +74,5 @@ int	main(int ac, char **av)
 		|| init_philo(&dt) == -1)
 		fn_destroy(&dt);
 	fn_destroy(&dt);
-	if (dt.nb_meal > 0)
-		printf("Number of meals : %d\n", dt.nb_meal);
 	return (0);
 }
