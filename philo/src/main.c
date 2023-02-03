@@ -12,6 +12,21 @@
 
 #include "../include/philosophers.h"
 
+static void	check(t_var *var, t_data *link)
+{
+	pthread_mutex_lock(link->action);
+	var->timer = var->t_die - (get_time(link) - link->philo[var->i].last_meal);
+	if (var->timer <= 0 && link->dead == 0)
+	{
+		link->dead = -1;
+		printf("\033[33m%ld %d died\033[0m\n",
+			get_time(link) - link->start, link->philo[var->i].id);
+		pthread_mutex_unlock(link->action);
+		return ;
+	}
+	pthread_mutex_unlock(link->action);
+}
+
 void	*chrono(void *chrono)
 {
 	t_philo	*c;
@@ -19,23 +34,10 @@ void	*chrono(void *chrono)
 
 	c = (t_philo *)chrono;
 	var = (t_var){0};
-	pthread_mutex_lock(c->link->action);
 	init_var(&var, c->link);
-	pthread_mutex_unlock(c->link->action);
 	while (++var.i < var.nb_philo)
 	{
-		pthread_mutex_lock(c->link->action);
-		var.timer
-			= var.t_die - (get_time(c->link) - c->link->philo[var.i].last_meal);
-		if (var.timer <= 0 && c->link->dead == 0)
-		{
-			c->link->dead = -1;
-			printf("\033[33m%ld %d died\033[0m\n",
-				get_time(c->link) - c->link->start, c->link->philo[var.i].id);
-			pthread_mutex_unlock(c->link->action);
-			return (NULL);
-		}
-		pthread_mutex_unlock(c->link->action);
+		check(&var, c->link);
 		usleep(var.t_die / 8 * 1000);
 		if (var.i == var.nb_philo - 1)
 			var.i = -1;

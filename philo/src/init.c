@@ -38,6 +38,23 @@ int	init_data(t_data *dt, int i)
 	return (0);
 }
 
+static int	create(t_data *dt, int nb_philo)
+{
+	int	i;
+
+	i = -1;
+	while (++i < nb_philo)
+	{
+		if (pthread_create(
+				&dt->philo[i].phi, NULL, routine, &dt->philo[i]) != 0)
+			return (fn_error(err_phil));
+		usleep(3000);
+	}
+	if (pthread_create(&dt->chrono.phi, NULL, chrono, &dt->chrono) != 0)
+		return (fn_error(err_phil));
+	return (0);
+}
+
 int	init_philo(t_data *dt)
 {
 	int	i;
@@ -48,16 +65,8 @@ int	init_philo(t_data *dt)
 	nb_philo = dt->nb_philo;
 	dt->start = get_time(dt);
 	pthread_mutex_unlock(dt->action);
-	while (++i < nb_philo)
-	{
-		if (pthread_create(
-				&dt->philo[i].phi, NULL, routine, &dt->philo[i]) != 0)
-			return (fn_error(err_phil));
-		usleep(3000);
-	}
-	if (pthread_create(&dt->chrono.phi, NULL, chrono, &dt->chrono) != 0)
-		return (fn_error(err_phil));
-	i = -1;
+	if (create(dt, nb_philo) == -1)
+		return (-1);
 	while (++i < dt->nb_philo)
 	{
 		if (pthread_join(dt->philo[i].phi, NULL) != 0)
@@ -71,6 +80,8 @@ int	init_philo(t_data *dt)
 void	init_var(t_var *var, t_data *link)
 {
 	var->i = -1;
+	pthread_mutex_lock(link->action);
 	var->nb_philo = link->nb_philo;
 	var->t_die = link->time_die;
+	pthread_mutex_unlock(link->action);
 }
