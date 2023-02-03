@@ -6,7 +6,7 @@
 /*   By: sadorlin <sadorlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 11:17:44 by sadorlin          #+#    #+#             */
-/*   Updated: 2023/02/02 15:44:42 by sadorlin         ###   ########.fr       */
+/*   Updated: 2023/02/04 00:17:38 by sadorlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,13 @@ void	*chrono(void *chrono)
 	while (++var.i < var.nb_philo)
 	{
 		pthread_mutex_lock(c->link->action);
-		var.timer = var.t_die - (get_time(c->link) - c->link->philo[var.i].last_meal);
+		var.timer
+			= var.t_die - (get_time(c->link) - c->link->philo[var.i].last_meal);
 		if (var.timer <= 0 && c->link->dead == 0)
 		{
 			c->link->dead = -1;
-			printf("%ld %d died\n", get_time(c->link) - c->link->start, c->link->philo[var.i].id);
+			printf("\033[33m%ld %d died\033[0m\n",
+				get_time(c->link) - c->link->start, c->link->philo[var.i].id);
 			pthread_mutex_unlock(c->link->action);
 			return (NULL);
 		}
@@ -47,7 +49,6 @@ void	*chrono(void *chrono)
 	}
 	return (NULL);
 }
-
 
 void	*routine(void *philo)
 {

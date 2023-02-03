@@ -6,7 +6,7 @@
 /*   By: sadorlin <sadorlin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 11:14:30 by sadorlin          #+#    #+#             */
-/*   Updated: 2023/02/02 15:42:03 by sadorlin         ###   ########.fr       */
+/*   Updated: 2023/02/04 00:07:36 by sadorlin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ int		start_eat(t_philo *philo);
 int		start_sleep(t_philo *philo);
 int		simu_with_meal(t_philo *philo, int meal, int id, int i);
 int		simu_without_meal(t_philo *philo, int id);
-void    init_var(t_var *var, t_data *link);
+void	init_var(t_var *var, t_data *link);
 int		init_philo(t_data *dt);
 int		init_data(t_data *dt, int i);
 void	*routine(void *philo);

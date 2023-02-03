@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sadorlin <sadorlin@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/02/04 00:04:46 by sadorlin          #+#    #+#             */
+/*   Updated: 2023/02/04 00:12:43 by sadorlin         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/philosophers.h"
 
 int	init_data(t_data *dt, int i)
@@ -29,16 +41,17 @@ int	init_data(t_data *dt, int i)
 int	init_philo(t_data *dt)
 {
 	int	i;
-    int nb_philo;
+	int	nb_philo;
 
 	i = -1;
 	pthread_mutex_lock(dt->action);
-    nb_philo = dt->nb_philo;
+	nb_philo = dt->nb_philo;
 	dt->start = get_time(dt);
 	pthread_mutex_unlock(dt->action);
 	while (++i < nb_philo)
 	{
-		if (pthread_create(&dt->philo[i].phi, NULL, routine, &dt->philo[i]) != 0)
+		if (pthread_create(
+				&dt->philo[i].phi, NULL, routine, &dt->philo[i]) != 0)
 			return (fn_error(err_phil));
 		usleep(3000);
 	}
@@ -55,9 +68,9 @@ int	init_philo(t_data *dt)
 	return (0);
 }
 
-void    init_var(t_var *var, t_data *link)
+void	init_var(t_var *var, t_data *link)
 {
-    var->i = -1;
-    var->nb_philo = link->nb_philo;
-    var->t_die = link->time_die;
+	var->i = -1;
+	var->nb_philo = link->nb_philo;
+	var->t_die = link->time_die;
 }
